@@ -3,7 +3,9 @@ package com.mag2kode.echarityspringboot;
 import com.mag2kode.echarityspringboot.dao.DonationCategoryRepository;
 import com.mag2kode.echarityspringboot.dao.DonationRepository;
 import com.mag2kode.echarityspringboot.entity.Donation;
+import com.mag2kode.echarityspringboot.entity.DonationCategory;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.IterableResult;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,9 +18,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -31,7 +32,7 @@ public class DonationIntegrationTest{
     private TestRestTemplate restTemplate;
 
     @LocalServerPort
-    private int port;
+    private int port = 8080;
 
     @Autowired
     DonationRepository donationRepository;
@@ -49,10 +50,10 @@ public class DonationIntegrationTest{
 
     @Test
     public void givenGetDonationsApiCall_whenDonationListRetrieved_thenSizeMatchAndListContainsDonationNames() {
-        ResponseEntity<Iterable<Donation>> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api/donations", HttpMethod.GET, null, new ParameterizedTypeReference<Iterable<Donation>>() {
-        });
+        ResponseEntity<Donation[]> responseEntity =
+                restTemplate.getForEntity("http://localhost:" + port + "/api/donations", Donation[].class);
 
-        Iterable<Donation> donations = responseEntity.getBody();
+        Donation[] donations = responseEntity.getBody();
         assertThat(donations).hasSize(7);
 
         assertThat(donations).containsExactly().anyMatch(d -> d.getName().equals(""));
@@ -60,16 +61,15 @@ public class DonationIntegrationTest{
 
     @Test
     public void givenGetDonationCategoryApiCall_whenDonationCategoryListRetrieved_thenSizeMatchAndListContainsDonationCategoryNames() {
-        ResponseEntity<Iterable<Donation>> responseEntity = restTemplate.exchange("http://localhost:" + port + "/api/donations", HttpMethod.GET, null, new ParameterizedTypeReference<Iterable<Donation>>() {
-        });
+        ResponseEntity<DonationCategory[]> responseEntity = restTemplate.getForEntity("http://localhost:" + port + "/api/donation-category", DonationCategory[].class);
 
-        Iterable<Donation> donations = responseEntity.getBody();
-        assertThat(donations)
+        DonationCategory[] donationCategories = responseEntity.getBody();
+        assertThat(donationCategories)
                 .hasSize(7);
 
-        assertThat(donations).containsExactly().anyMatch(d -> d.getName().equals(""));
-        assertThat(donations).containsExactly().anyMatch(d -> d.getCategoryId().equals(""));
-        assertThat(donations).allMatch(Objects::nonNull);
+        assertThat(donationCategories).containsExactly().anyMatch(d -> d.getCategoryName().equals(""));
+        assertThat(donationCategories).containsExactly().anyMatch(d -> d.getId().equals(""));
+        assertThat(donationCategories).allMatch(Objects::nonNull);
     }
 
     /*@Test

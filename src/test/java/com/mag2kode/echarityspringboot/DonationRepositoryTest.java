@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class DonationRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests{
 
-    @Autowired
+    //@Autowired
     public MockMvc mockMvc;
 
     private TestEntityManager testEntityManager;
