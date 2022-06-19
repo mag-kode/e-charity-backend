@@ -8,17 +8,19 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
-@RequestMapping("/api/submit-deliver")
+@RequestMapping("/submit-delivery")
 public class PackageController{
     private PackageService packageService;
 
     @Autowired
     public PackageController(PackageService packageService){
+
         this.packageService = packageService;
     }
 
-    @PostMapping("/pack")
+    @PostMapping("/submit-delivery/package")
     public PackageResponse packResponse(@RequestBody Package pack) {
+        System.out.println("packResponse: " + pack.toString());
         PackageResponse packageResponse = packageService.placeDelivery(pack);
         return packageResponse;
     }

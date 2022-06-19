@@ -27,18 +27,18 @@ public class Delivery{
     @Column(name = "total_quantity")
     private int totalQuantity;
 
-    @Column(name = "address_id")
-    private Long address_id;
+    /*@Column(name = "address_id")
+    private Long address_id;*/
 
-    @Column(name = "receiver_id")
-    private Long receiver_id;
+   /* @Column(name = "receiver_id")
+    private Long receiver_id;*/
 
     @ManyToOne
     @JoinColumn(name = "receiver_id")
     private Receiver receiver;
 
-    @Column(name = "volunteer_id")
-    private Long volunteer_id;
+    /*@Column(name = "volunteer_id")
+    private Long volunteer_id;*/
 
     @ManyToOne
     @JoinColumn(name = "volunteer_id")

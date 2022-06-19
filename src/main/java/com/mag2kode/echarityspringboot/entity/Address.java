@@ -18,16 +18,16 @@ public class Address{
     @Column(name = "city")
     private String city;
 
-    @Column(name = "city")
+    @Column(name = "street")
     private String street;
 
-    @Column(name = "city")
+    @Column(name = "building")
     private String building;
 
-    @Column(name = "city")
+    @Column(name = "tap")
     private String tap;
 
-    @Column(name = "city")
+    @Column(name = "apartment")
     private String apartment;
 
     @OneToOne(cascade = CascadeType.ALL)
