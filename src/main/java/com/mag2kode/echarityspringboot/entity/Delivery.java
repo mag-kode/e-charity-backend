@@ -33,14 +33,12 @@ public class Delivery{
    /* @Column(name = "receiver_id")
     private Long receiver_id;*/
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "receiver_id")
     private Receiver receiver;
 
-    /*@Column(name = "volunteer_id")
-    private Long volunteer_id;*/
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
 

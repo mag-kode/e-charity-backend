@@ -18,6 +18,11 @@ public class Volunteer{
     @Column(name = "id")
     private Long id;
 
+    public void setFirstName(String firstName){
+        System.out.println("first name: " + firstName);
+        this.firstName = firstName;
+    }
+
     @Column(name = "first_name")
     private String firstName;
 

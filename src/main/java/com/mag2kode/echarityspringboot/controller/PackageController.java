@@ -4,11 +4,11 @@ import com.mag2kode.echarityspringboot.dto.Package;
 import com.mag2kode.echarityspringboot.dto.PackageResponse;
 import com.mag2kode.echarityspringboot.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
-@RequestMapping("/submit-delivery")
 public class PackageController{
     private PackageService packageService;
 
@@ -18,8 +18,9 @@ public class PackageController{
         this.packageService = packageService;
     }
 
-    @PostMapping("/submit-delivery/package")
-    public PackageResponse packResponse(@RequestBody Package pack) {
+    @CrossOrigin("http://localhost:4200")
+    @RequestMapping(method = RequestMethod.POST, path = "/api/delivery")
+    public PackageResponse packageResponse(@RequestBody Package pack) {
         System.out.println("packResponse: " + pack.toString());
         PackageResponse packageResponse = packageService.placeDelivery(pack);
         return packageResponse;

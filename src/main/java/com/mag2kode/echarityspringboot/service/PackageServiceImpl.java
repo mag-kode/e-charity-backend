@@ -1,5 +1,6 @@
 package com.mag2kode.echarityspringboot.service;
 
+import com.mag2kode.echarityspringboot.dao.DeliveriesRepository;
 import com.mag2kode.echarityspringboot.dao.ReceiverRepository;
 import com.mag2kode.echarityspringboot.dto.Package;
 import com.mag2kode.echarityspringboot.dto.PackageResponse;
@@ -7,27 +8,29 @@ import com.mag2kode.echarityspringboot.entity.Delivery;
 import com.mag2kode.echarityspringboot.entity.DeliveryItem;
 import com.mag2kode.echarityspringboot.entity.Receiver;
 import com.mag2kode.echarityspringboot.entity.Volunteer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
 import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class PackageServiceImpl implements PackageService {
 
-    private ReceiverRepository receiverRepository;
+    private DeliveriesRepository deliveriesRepository;
 
     @Autowired
-    public PackageServiceImpl(ReceiverRepository receiverRepository){
-        this.receiverRepository = receiverRepository;
+    public PackageServiceImpl(DeliveriesRepository deliveriesRepository){
+        this.deliveriesRepository = deliveriesRepository;
     }
 
     @Override
     @Transactional
     public PackageResponse placeDelivery(Package pack){
+
+        System.out.println("saving delivery: " + pack.toString());
 
         //retrieve dto
         Delivery delivery = pack.getDelivery();
@@ -50,6 +53,9 @@ public class PackageServiceImpl implements PackageService {
         //add volunteer
         Volunteer volunteer = pack.getVolunteer();
         volunteer.add(delivery);
+
+        deliveriesRepository.save(delivery);
+
 
         //return response
 
